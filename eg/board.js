@@ -17,16 +17,12 @@ board.on("ready", function() {
 
   var val = 0;
 
-  // Set built in LED on D7 to OUTPUT mode
-  this.pinMode("D7", this.MODES.OUTPUT);
+  var led = new five.Led("D7");
 
-  // Create a loop to "flash/blink/strobe" an led
-  this.loop(100, function() {
-    this.digitalWrite("D7", (val = val ? 0 : 1));
-  });
+  led.blink();
+
 });
 
 board.on("error", function(error) {
   console.log(error);
 });
-

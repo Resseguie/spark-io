@@ -23,9 +23,9 @@ board.on("ready", function() {
       type : 'continuous'
   }).stop();
 
-  process.stdin.resume(); 
-  process.stdin.setEncoding('utf8'); 
-  process.stdin.setRawMode(true); 
+  process.stdin.resume();
+  process.stdin.setEncoding('utf8');
+  process.stdin.setRawMode(true);
 
   process.stdin.on('keypress', function (ch, key) {
     

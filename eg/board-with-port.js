@@ -10,7 +10,7 @@ board = new five.Board({
     token: process.env.SPARK_TOKEN,
     deviceId: process.env.SPARK_DEVICE_ID
   }),
-  port: "/dev/cu.usbmodem411"
+  port: "/dev/cu.usbmodem1421"
 });
 
 // The board's pins will not be accessible until
