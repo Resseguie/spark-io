@@ -27,6 +27,7 @@ board.on("ready", function() {
   });
 
   a.on();
+  a.color("#FF0000");
 
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
@@ -39,13 +40,15 @@ board.on("ready", function() {
     }
 
     if ( key.name == 'r' ) {
-      a.on("#FF0000");
+      a.color("#FF0000");
     }else if ( key.name == 'g' ) {
-      a.on("#00FF00");
+      a.color("#00FF00");
     }else if ( key.name == 'b' ) {
-      a.on("#0000FF");
+      a.color("#0000FF");
     }else if ( key.name == 'w' ) {
-      a.on("#FFFFFF");
+      a.color("#FFFFFF");
+    }else if ( key.name == 'o' ) {
+      a.color("#000000");
     }
 
   });

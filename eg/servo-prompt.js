@@ -15,14 +15,14 @@ var board = new Spark({
 
 board.on('ready', function() {
 
-  this.pinMode('D0', this.MODES.OUTPUT);
+  this.pinMode('D0', this.MODES.SERVO);
 
   rl.setPrompt('SERVO TEST (0-180)> ');
   rl.prompt();
 
   rl.on('line', function(line) {
     var pos = line.trim();
-    board.analogWrite("D0", pos);
+    board.servoWrite("D0", pos);
     rl.prompt();
   }).on('close', function() {
     process.exit(0);

@@ -1,5 +1,6 @@
 var five = require("johnny-five"),
   Spark = require("../lib/spark"),
+  temporal = require('temporal'),
   board;
 
 // Create Johnny-Five board connected via Spark
@@ -16,61 +17,91 @@ board.on("ready", function() {
   console.log("CONNECTED");
 
   // Create a new `servo` hardware instance.
-  servo = new five.Servo(10);
   var servo  = new five.Servo({
       pin  : "D0"
   }).stop();
 
-  // Inject the `servo` hardware into
-  // the Repl instance's context;
-  // allows direct command line access
-  board.repl.inject({
-    servo: servo
-  });
+  temporal.queue([
+    {
+      delay: 0,
+      task: function(){
+        // min()
+        //
+        // set the servo to the minimum degrees
+        // defaults to 0
+        //
+        servo.min();
+      }
+    },{
+      delay: 1000,
+      task: function(){
+        // max()
+        //
+        // set the servo to the maximum degrees
+        // defaults to 180
+        //
+        servo.max();
+      }
+    },{
+      delay: 1000,
+      task: function(){
+        // center()
+        //
+        // centers the servo to 90°
+        //
+        servo.center();
+      }
+    },{
+      delay: 1000,
+      task: function(){
+        // sweep( obj )
+        //
+        // Perform a min-max cycling servo sweep (defaults to 0-180)
+        // optionally accepts an object of sweep settings:
+        // {
+        //    lapse: time in milliseconds to wait between moves
+        //           defaults to 500ms
+        //    degrees: distance in degrees to move
+        //           defaults to 10°
+        // }
+        //
+        servo.sweep();
+      }
+    },{
+      delay: 5000,
+      task: function(){
+        // stop(  )
+        //
+        // Stop a moving servo
+        servo.stop();
+      }
+    },{
+      delay: 1000,
+      task: function(){
+        // to( deg )
+        //
+        // Moves the servo to position by degrees
+        //
+        servo.to( 15 );
+      }
+    },{
+      delay: 1000,
+      task: function(){
+        // step ( deg )
+        //
+        // Move servo relative to current position by degrees
 
-  // Servo API
+        temporal.loop(500,function(){
+          if(this.called > 10){
+            process.exit(0);
+            this.stop();
+          }
 
-  // min()
-  //
-  // set the servo to the minimum degrees
-  // defaults to 0
-  //
-  // eg. servo.min();
+          servo.step( 15 );
+        });
+        
+      }
+    }
+  ]);
 
-  // max()
-  //
-  // set the servo to the maximum degrees
-  // defaults to 180
-  //
-  // eg. servo.max();
-
-  // center()
-  //
-  // centers the servo to 90°
-  //
-  servo.center();
-
-  // move( deg )
-  //
-  // Moves the servo to position by degrees
-  //
-  // servo.to( 90 );
-
-  // sweep( obj )
-  //
-  // Perform a min-max cycling servo sweep (defaults to 0-180)
-  // optionally accepts an object of sweep settings:
-  // {
-  //    lapse: time in milliseconds to wait between moves
-  //           defaults to 500ms
-  //    degrees: distance in degrees to move
-  //           defaults to 10°
-  // }
-  //
-  // servo.sweep();
 });
-
-
-// References
-//
-// http://servocity.com/html/hs-7980th_servo.html
